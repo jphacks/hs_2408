@@ -15,9 +15,9 @@ def calcDist(coffee, slider):
 
 
 def calcCoffee(isIce, slider):
-    coffees = pd.read_csv("../truedata.csv")
-    coffees.columns = ["id", "title", "acid", "body", "roast"]
-    coffees.astype({"acid": int, "body": int, "roast": int})
+    coffees = pd.read_csv("truedata.csv")
+    coffees.columns = ["id", "title", "taste", "body", "roast"]
+    coffees.astype({"taste": int, "body": int, "roast": int})
     coffees["score"] = coffees.apply(calcDist, slider=slider, axis=1)
     coffees.sort_values("score", ascending=False)
     return {
@@ -42,7 +42,7 @@ def calcCoffee(isIce, slider):
 def index():
     req = request.get_json()
     isIce = req["isIce"]
-    slider = [req["acid"], req["body"], req["roast"]]
+    slider = [req["taste"], req["body"], req["roast"]]
     return json.dumps(calcCoffee(isIce, slider))
 
 
