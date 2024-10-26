@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 
-import 'diagnosis_result.dart'; // 診断結果画面をインポート
+import 'diagnosis_result.dart';
 
 class SliderScreen extends StatefulWidget {
   const SliderScreen({super.key});
@@ -78,7 +78,7 @@ class SliderScreenState extends State<SliderScreen> {
       appBar: AppBar(title: const Text('コーヒー診断')),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
 
@@ -92,7 +92,9 @@ class SliderScreenState extends State<SliderScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isIce ? Colors.blue[900] : Colors.blue,
                     foregroundColor: Colors.white,
-                    side: isIce ? const BorderSide(color: Colors.black, width: 3) : null,
+                    side: isIce
+                        ? const BorderSide(color: Colors.black, width: 3)
+                        : null,
                   ),
                   onPressed: () {
                     setState(() {
@@ -101,12 +103,15 @@ class SliderScreenState extends State<SliderScreen> {
                   },
                 ),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.local_fire_department, color: Colors.white),
+                  icon: const Icon(Icons.local_fire_department,
+                      color: Colors.white),
                   label: const Text('HOT'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isIce ? Colors.red : Colors.red[900],
                     foregroundColor: Colors.white,
-                    side: isIce ? null : const BorderSide(color: Colors.black, width: 3),
+                    side: isIce
+                        ? null
+                        : const BorderSide(color: Colors.black, width: 3),
                   ),
                   onPressed: () {
                     setState(() {
@@ -228,8 +233,8 @@ class SliderScreenState extends State<SliderScreen> {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(32)),

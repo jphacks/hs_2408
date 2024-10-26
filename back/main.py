@@ -58,6 +58,9 @@ def index():
     slider = [req["taste"], req["body"], req["roast"]]
     return json.dumps(calcCoffee(isBegineer, pro, isIce, slider))
 
+@app.route("/", methods=['GET'])
+def index2():
+    return 'hello'
 
 if __name__ == "__main__":
     app.run(debug=True)
