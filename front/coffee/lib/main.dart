@@ -27,9 +27,10 @@ class _SliderScreen extends StatefulWidget {
 }
 
 class _SliderScreenState extends State<_SliderScreen> {
-  double sliderValue1 = 0.0;
-  double sliderValue2 = 0.0;
-  double sliderValue3 = 0.0;
+  bool isIce = true;
+  int sliderValue1 = 50;
+  int sliderValue2 = 50;
+  int sliderValue3 = 50;
   String imgurl = "https://www.kaldi.co.jp/ec/img/775/4515996013775_M_1m.jpg";
 
   Future<void> sendValues() async {
@@ -43,9 +44,9 @@ class _SliderScreenState extends State<_SliderScreen> {
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'value1': sliderValue1,
-        'value2': sliderValue2,
-        'value3': sliderValue3,
+        'acid': sliderValue1,
+        'body': sliderValue2,
+        'roast': sliderValue3,
       }),
     );
 
@@ -61,44 +62,98 @@ class _SliderScreenState extends State<_SliderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Slider with Send Button')),
+      appBar: AppBar(title: const Text('Slider with Send Button2')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Slider 1: ${sliderValue1.toStringAsFixed(2)}'),
-          Slider(
-            value: sliderValue1,
-            min: 0,
-            max: 100,
-            onChanged: (value) {
-              setState(() {
-                sliderValue1 = value;
-              });
-            },
-          ),
-          Text('Slider 2: ${sliderValue2.toStringAsFixed(2)}'),
-          Slider(
-            value: sliderValue2,
-            min: 0,
-            max: 100,
-            onChanged: (value) {
-              setState(() {
-                sliderValue2 = value;
-              });
-            },
-          ),
-          Text('Slider 3: ${sliderValue3.toStringAsFixed(2)}'),
-          Slider(
-            value: sliderValue3,
-            min: 0,
-            max: 100,
-            onChanged: (value) {
-              setState(() {
-                sliderValue3 = value;
-              });
-            },
+          ElevatedButton.icon(
+            icon: const Icon(
+              Icons.tag_faces,
+              color: Colors.white,
+            ),
+            label: const Text('Button'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green, // primaryをbackgroundColorに変更
+              foregroundColor:
+                  Colors.white, // これも変更が必要であれば、例えばforegroundColorに変更
+            ),
+            onPressed: () {},
           ),
           const SizedBox(height: 20),
+
+          // テイストバランススライダー
+          Text('テイストバランス: ${sliderValue1.toString()}'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('酸味'),
+              Expanded(
+                child: Slider(
+                  value: sliderValue1.toDouble(),
+                  min: 0,
+                  max: 100,
+                  divisions: 100,
+                  onChanged: (value) {
+                    setState(() {
+                      sliderValue1 = value.toInt();
+                    });
+                  },
+                ),
+              ),
+              const Text('苦味'),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // ボディスライダー
+          Text('ボディ: ${sliderValue2.toString()}'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('ライト'),
+              Expanded(
+                child: Slider(
+                  value: sliderValue2.toDouble(),
+                  min: 0,
+                  max: 100,
+                  divisions: 100,
+                  onChanged: (value) {
+                    setState(() {
+                      sliderValue2 = value.toInt();
+                    });
+                  },
+                ),
+              ),
+              const Text('フル'),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // ローストスライダー
+          Text('ロースト: ${sliderValue3.toString()}'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('浅煎り'),
+              Expanded(
+                child: Slider(
+                  value: sliderValue3.toDouble(),
+                  min: 0,
+                  max: 100,
+                  divisions: 100,
+                  onChanged: (value) {
+                    setState(() {
+                      sliderValue3 = value.toInt();
+                    });
+                  },
+                ),
+              ),
+              const Text('深煎り'),
+            ],
+          ),
+          const SizedBox(height: 20),
+
+          // 送信ボタン
           ElevatedButton(
             onPressed: () async {
               await sendValues();
@@ -112,7 +167,7 @@ class _SliderScreenState extends State<_SliderScreen> {
                     });
               }
             },
-            child: const Text('送信'),
+            child: const Text('診断開始'),
           ),
         ],
       ),
