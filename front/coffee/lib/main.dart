@@ -1,4 +1,3 @@
-// main.dartの一部を修正
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -8,7 +7,7 @@ import 'package:hs_2408/list_page.dart';
 import 'package:hs_2408/diagnosis_result.dart';
 
 void main() async {
-  await dotenv.load(fileName: ".env"); // dotenvを読み込みます
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
 }
 
 class _SliderScreen extends StatefulWidget {
-  const _SliderScreen({super.key}); // super.keyを追加
+  const _SliderScreen({super.key});
 
   @override
   _SliderScreenState createState() => _SliderScreenState();
@@ -37,8 +36,8 @@ class _SliderScreenState extends State<_SliderScreen> {
   int sliderValue3 = 50;
   String imgurl = "https://www.kaldi.co.jp/ec/img/775/4515996013775_M_1m.jpg";
 
-  Future<void> sendValues() async {
-    final url = dotenv.env['API_URL']; // 環境変数からURLを取得
+  Future<void> sendValues(BuildContext context) async {
+    final url = dotenv.env['API_URL'];
     if (url == null) {
       print('API_URL is not set in the environment variables');
       return;
@@ -56,14 +55,20 @@ class _SliderScreenState extends State<_SliderScreen> {
     );
 
     if (response.statusCode == 200) {
-      print('Values sent successfully');
+      final resultData = jsonDecode(response.body);
+      List<dynamic> x = resultData["imgs"];
+      List<Map<String, String>> coffeeResults =
+          x.map((item) => Map<String, String>.from(item)).toList();
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DiagnosisResult(coffeeResults: coffeeResults),
+        ),
+      );
     } else {
       print('Failed to send values');
     }
-    Map<String, dynamic> map = jsonDecode(response.body);
-    setState(() {
-      imgurl = map["url"];
-    });
   }
 
   @override
@@ -185,15 +190,7 @@ class _SliderScreenState extends State<_SliderScreen> {
           // 診断ボタン
           ElevatedButton(
             onPressed: () async {
-              await sendValues();
-
-              if (context.mounted) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DiagnosisResult(),
-                    ));
-              }
+              await sendValues(context);
             },
             child: const Text('診断開始'),
           ),
