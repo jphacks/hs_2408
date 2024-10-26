@@ -185,19 +185,15 @@ class _SliderScreenState extends State<_SliderScreen> {
           // 診断ボタン
           ElevatedButton(
             onPressed: () async {
-              // await sendValues();
-              // if (context.mounted) {
-              //   showDialog<void>(
-              //       context: context,
-              //       builder: (_) {
-              //         return AlertDialogSample(imgurl: imgurl);
-              //       });
-              // }
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DiagnosisResult(),
-                  ));
+              await sendValues();
+
+              if (context.mounted) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DiagnosisResult(),
+                    ));
+              }
             },
             child: const Text('診断開始'),
           ),
