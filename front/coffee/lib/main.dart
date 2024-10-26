@@ -30,6 +30,7 @@ class _SliderScreen extends StatefulWidget {
 }
 
 class _SliderScreenState extends State<_SliderScreen> {
+  bool isBeginner = false;
   bool isIce = true;
   int sliderValue1 = 50;
   int sliderValue2 = 50;
@@ -47,6 +48,7 @@ class _SliderScreenState extends State<_SliderScreen> {
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
+        'isBeginner': isBeginner,
         'isIce': isIce,
         'taste': sliderValue1,
         'body': sliderValue2,
@@ -118,7 +120,7 @@ class _SliderScreenState extends State<_SliderScreen> {
           const SizedBox(height: 20),
 
           // 各スライダー
-          Text('テイストバランス'),
+          const Text('テイストバランス'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -187,6 +189,18 @@ class _SliderScreenState extends State<_SliderScreen> {
           ),
           const SizedBox(height: 20),
 
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            const Text('こだわりますか'),
+            Checkbox(
+                value: isBeginner,
+                onChanged: (value) {
+                  setState(() {
+                    isBeginner = value!;
+                  });
+                })
+          ]),
+          const SizedBox(height: 20),
+
           // 診断ボタン
           ElevatedButton(
             onPressed: () async {
@@ -194,37 +208,8 @@ class _SliderScreenState extends State<_SliderScreen> {
             },
             child: const Text('診断開始'),
           ),
-          // ここでListPageウィジェットを使う
-          const SizedBox(height: 20),
-          //const ListPage(), // ListPageを追加
         ],
       ),
-    );
-  }
-}
-
-class AlertDialogSample extends StatelessWidget {
-  final String? imgurl;
-  const AlertDialogSample({super.key, this.imgurl});
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('データを消してしまってもいいですか？'),
-      content: const Text('こうかいしませんね？'),
-      actions: <Widget>[
-        Image.network(imgurl!),
-        GestureDetector(
-          child: const Text('いいえ'),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-        GestureDetector(
-          child: const Text('はい'),
-          onTap: () {},
-        )
-      ],
     );
   }
 }
