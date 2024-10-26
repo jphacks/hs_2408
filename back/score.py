@@ -10,6 +10,8 @@ Original file is located at
 import requests
 from bs4 import BeautifulSoup
 
+# detail_urlsをresultsから生成
+detail_urls = [item["detail"] for item in results if "detail" in item]
 
 detail_urls_with_id = [
 [idx + 1, url, 0, 0, 0, 0]  # IDとURLを設定し、他は0で初期化
