@@ -1,7 +1,11 @@
+// main.dartの一部を修正
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
+
+import 'package:hs_2408/list_page.dart';
+import 'package:hs_2408/diagnosis_result.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env"); // dotenvを読み込みます
@@ -57,25 +61,24 @@ class _SliderScreenState extends State<_SliderScreen> {
       print('Failed to send values');
     }
     Map<String, dynamic> map = jsonDecode(response.body);
-    imgurl = map["url"];
+    setState(() {
+      imgurl = map["url"];
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Slider with Send Button2')),
+      appBar: AppBar(title: const Text('コーヒー診断')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // ICE/HOTボタン
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceEvenly, // ボタンの間にスペースを均等に配置
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.ac_unit,
-                  color: Colors.white,
-                ),
+                icon: const Icon(Icons.ac_unit, color: Colors.white),
                 label: const Text('ICE'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: isIce ? Colors.blue[900] : Colors.blue,
@@ -90,10 +93,8 @@ class _SliderScreenState extends State<_SliderScreen> {
                 },
               ),
               ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.local_fire_department,
-                  color: Colors.white,
-                ),
+                icon: const Icon(Icons.local_fire_department,
+                    color: Colors.white),
                 label: const Text('HOT'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: isIce ? Colors.red : Colors.red[900],
@@ -111,8 +112,7 @@ class _SliderScreenState extends State<_SliderScreen> {
           ),
           const SizedBox(height: 20),
 
-          // テイストバランススライダー
-          // Text('テイストバランス: ${sliderValue1.toString()}'),
+          // 各スライダー
           Text('テイストバランス'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,7 +136,6 @@ class _SliderScreenState extends State<_SliderScreen> {
           ),
           const SizedBox(height: 20),
 
-          // ボディスライダー
           Text('ボディ'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,12 +159,11 @@ class _SliderScreenState extends State<_SliderScreen> {
           ),
           const SizedBox(height: 20),
 
-          // ローストスライダー
           Text('ロースト'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('浅煎り'),
+              const Text('淺煎り'),
               Expanded(
                 child: Slider(
                   value: sliderValue3.toDouble(),
@@ -184,22 +182,28 @@ class _SliderScreenState extends State<_SliderScreen> {
           ),
           const SizedBox(height: 20),
 
-          // 送信ボタン
+          // 診断ボタン
           ElevatedButton(
             onPressed: () async {
-              await sendValues();
-              if (context.mounted) {
-                showDialog<void>(
-                    context: context,
-                    builder: (_) {
-                      return AlertDialogSample(
-                        imgurl: imgurl,
-                      );
-                    });
-              }
+              // await sendValues();
+              // if (context.mounted) {
+              //   showDialog<void>(
+              //       context: context,
+              //       builder: (_) {
+              //         return AlertDialogSample(imgurl: imgurl);
+              //       });
+              // }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DiagnosisResult(),
+                  ));
             },
             child: const Text('診断開始'),
           ),
+          // ここでListPageウィジェットを使う
+          const SizedBox(height: 20),
+          //const ListPage(), // ListPageを追加
         ],
       ),
     );
