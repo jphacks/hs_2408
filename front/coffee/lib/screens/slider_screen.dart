@@ -13,7 +13,7 @@ class SliderScreen extends StatefulWidget {
 }
 
 class SliderScreenState extends State<SliderScreen> {
-  bool isBeginner = false;
+  bool isPro = false;
   bool isIce = true;
   int sliderValue1 = 50;
   int sliderValue2 = 50;
@@ -43,7 +43,7 @@ class SliderScreenState extends State<SliderScreen> {
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'isBeginner': isBeginner,
+        'isPro': isPro,
         'isIce': isIce,
         'taste': sliderValue1,
         'body': sliderValue2,
@@ -92,7 +92,9 @@ class SliderScreenState extends State<SliderScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isIce ? Colors.blue[900] : Colors.blue,
                     foregroundColor: Colors.white,
-                    side: isIce ? const BorderSide(color: Colors.black, width: 3) : null,
+                    side: isIce
+                        ? const BorderSide(color: Colors.black, width: 3)
+                        : null,
                   ),
                   onPressed: () {
                     setState(() {
@@ -101,12 +103,15 @@ class SliderScreenState extends State<SliderScreen> {
                   },
                 ),
                 ElevatedButton.icon(
-                  icon: const Icon(Icons.local_fire_department, color: Colors.white),
+                  icon: const Icon(Icons.local_fire_department,
+                      color: Colors.white),
                   label: const Text('HOT'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: isIce ? Colors.red : Colors.red[900],
                     foregroundColor: Colors.white,
-                    side: isIce ? null : const BorderSide(color: Colors.black, width: 3),
+                    side: isIce
+                        ? null
+                        : const BorderSide(color: Colors.black, width: 3),
                   ),
                   onPressed: () {
                     setState(() {
@@ -196,10 +201,10 @@ class SliderScreenState extends State<SliderScreen> {
               children: [
                 const Text('こだわりますか'),
                 Checkbox(
-                  value: isBeginner,
+                  value: isPro,
                   onChanged: (value) {
                     setState(() {
-                      isBeginner = value!;
+                      isPro = value!;
                     });
                   },
                 ),
@@ -209,7 +214,7 @@ class SliderScreenState extends State<SliderScreen> {
 
             // カテゴリー選択（こだわる場合のみ表示）
             Visibility(
-              visible: isBeginner,
+              visible: isPro,
               child: Wrap(
                 runSpacing: 16,
                 spacing: 16,
@@ -228,8 +233,8 @@ class SliderScreenState extends State<SliderScreen> {
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
                       decoration: BoxDecoration(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(32)),
