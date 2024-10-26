@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -12,7 +13,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key}); // super.keyを追加
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,15 @@ class _SliderScreenState extends State<_SliderScreen> {
   int sliderValue1 = 50;
   int sliderValue2 = 50;
   int sliderValue3 = 50;
-  String imgurl = "https://www.kaldi.co.jp/ec/img/775/4515996013775_M_1m.jpg";
+
+  // 選択されたタグ
+  var selectedCategory = <String>[];
+
+  // カテゴリー詳細
+  final Category = [
+    'brend',
+    'darkRoast',
+  ];
 
   Future<void> sendValues(BuildContext context) async {
     final url = dotenv.env['API_URL'];
@@ -43,6 +52,10 @@ class _SliderScreenState extends State<_SliderScreen> {
       print('API_URL is not set in the environment variables');
       return;
     }
+
+    // selectedCategoryの中にタグがあるかどうかでフラグを設定
+    bool selectedBrend = selectedCategory.contains('brend');
+    bool selectedDarkRoast = selectedCategory.contains('darkRoast');
 
     final response = await http.post(
       Uri.parse(url),
@@ -53,6 +66,10 @@ class _SliderScreenState extends State<_SliderScreen> {
         'taste': sliderValue1,
         'body': sliderValue2,
         'roast': sliderValue3,
+        'pro': {
+          'brend': selectedBrend,
+          'darkRoast': selectedDarkRoast,
+        },
       }),
     );
 
@@ -199,6 +216,52 @@ class _SliderScreenState extends State<_SliderScreen> {
                   });
                 })
           ]),
+          const SizedBox(height: 20),
+
+          // Visibility内のチェックボックス選択を処理
+          Visibility(
+            visible: isBeginner,
+            child: Wrap(
+              runSpacing: 16,
+              spacing: 16,
+              children: Category.map((tag) {
+                // selectedCategory の中に自分がいるかを確かめる
+                final isSelected = selectedCategory.contains(tag);
+                return InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  onTap: () {
+                    setState(() {
+                      if (isSelected) {
+                        selectedCategory.remove(tag); // 選択されている場合は削除
+                      } else {
+                        selectedCategory.add(tag); // 選択されていない場合は追加
+                      }
+                    });
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(32)),
+                      border: Border.all(
+                        width: 2,
+                        color: Colors.pink,
+                      ),
+                      color: isSelected ? Colors.pink : null,
+                    ),
+                    child: Text(
+                      tag,
+                      style: TextStyle(
+                        color: isSelected ? Colors.white : Colors.pink,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
           const SizedBox(height: 20),
 
           // 診断ボタン
