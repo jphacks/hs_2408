@@ -17,14 +17,14 @@ def calcDist(coffee, slider):
     )
 
 
-def calcCoffee(isBeginner, pro, isIce, slider):
+def calcCoffee(isPro, pro, isIce, slider):
     coffees = pd.read_csv("truedata.csv")
     coffees.columns = ["id", "title", "taste", "body", "roast"]
     coffees["brend"] = pd.Series([np.random.random() < 0.5] * (len(coffees["id"])))
     coffees["darkRoast"] = pd.Series([np.random.random() < 0.5] * (len(coffees["id"])))
     coffees.astype({"taste": int, "body": int, "roast": int})
     coffees["score"] = coffees.apply(calcDist, slider=slider, axis=1)
-    if isBeginner:
+    if isPro:
         brend = pro["brend"]
         darkRoast = pro["darkRoast"]
         coffees = coffees[coffees["brend"] == brend]
@@ -52,15 +52,15 @@ def calcCoffee(isBeginner, pro, isIce, slider):
 @app.route("/", methods=["POST"])
 def index():
     req = request.get_json()
-    isBegineer = req["isBeginner"]
+    isPro = req["isPro"]
     pro = req["pro"]
     isIce = req["isIce"]
     slider = [req["taste"], req["body"], req["roast"]]
-    return json.dumps(calcCoffee(isBegineer, pro, isIce, slider))
+    return json.dumps(calcCoffee(isPro, pro, isIce, slider))
 
 @app.route("/", methods=['GET'])
 def index2():
     return 'hello'
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")
