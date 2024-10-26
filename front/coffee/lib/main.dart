@@ -44,7 +44,8 @@ class _SliderScreenState extends State<_SliderScreen> {
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'acid': sliderValue1,
+        'isIce': isIce,
+        'taste': sliderValue1,
         'body': sliderValue2,
         'roast': sliderValue3,
       }),
@@ -66,23 +67,53 @@ class _SliderScreenState extends State<_SliderScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton.icon(
-            icon: const Icon(
-              Icons.tag_faces,
-              color: Colors.white,
-            ),
-            label: const Text('Button'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green, // primaryをbackgroundColorに変更
-              foregroundColor:
-                  Colors.white, // これも変更が必要であれば、例えばforegroundColorに変更
-            ),
-            onPressed: () {},
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceEvenly, // ボタンの間にスペースを均等に配置
+            children: [
+              ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.ac_unit,
+                  color: Colors.white,
+                ),
+                label: const Text('ICE'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isIce ? Colors.blue[900] : Colors.blue,
+                  foregroundColor: Colors.white,
+                  side:
+                      isIce ? BorderSide(color: Colors.black, width: 3) : null,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isIce = true;
+                  });
+                },
+              ),
+              ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.local_fire_department,
+                  color: Colors.white,
+                ),
+                label: const Text('HOT'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isIce ? Colors.red : Colors.red[900],
+                  foregroundColor: Colors.white,
+                  side:
+                      isIce ? null : BorderSide(color: Colors.black, width: 3),
+                ),
+                onPressed: () {
+                  setState(() {
+                    isIce = false;
+                  });
+                },
+              ),
+            ],
           ),
           const SizedBox(height: 20),
 
           // テイストバランススライダー
-          Text('テイストバランス: ${sliderValue1.toString()}'),
+          // Text('テイストバランス: ${sliderValue1.toString()}'),
+          Text('テイストバランス'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -106,7 +137,7 @@ class _SliderScreenState extends State<_SliderScreen> {
           const SizedBox(height: 20),
 
           // ボディスライダー
-          Text('ボディ: ${sliderValue2.toString()}'),
+          Text('ボディ'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -130,7 +161,7 @@ class _SliderScreenState extends State<_SliderScreen> {
           const SizedBox(height: 20),
 
           // ローストスライダー
-          Text('ロースト: ${sliderValue3.toString()}'),
+          Text('ロースト'),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
