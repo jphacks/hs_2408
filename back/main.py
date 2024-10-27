@@ -31,13 +31,13 @@ def calcCoffee(isPro, pro, isIce, slider):
         coffees = coffees[coffees["brend"] == brend]
         coffees = coffees[coffees["darkRoast"] == darkRoast]
 
-    coffees.sort_values("score", ascending=False)
+    coffees = coffees.sort_values("score", ascending=True)
     return {
         "imgs": [
             {
                 "title": coffees.iloc[0, 6],
                 "url": f'http://{server}:5000/static/{os.path.basename(coffees.iloc[0,2])}',
-                #"video": f"{server}/static/tmp.mp4",
+                "video": f"http://{server}/static/bee.mp4",
             },
             {
                 "title": coffees.iloc[1, 6],
