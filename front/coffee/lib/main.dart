@@ -37,7 +37,7 @@ class TopPage extends StatelessWidget {
           ),
           // コンテンツ（画像ボタン）
           Positioned(
-            top: 215, // 必要に応じて調整、値を小さくすると上に移動します
+            top: 190, // 必要に応じて調整、値を小さくすると上に移動します
             left: 0,
             right: 0,
             child: GestureDetector(

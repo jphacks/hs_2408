@@ -75,7 +75,10 @@ class SliderScreenState extends State<SliderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('コーヒー診断')),
+      appBar: AppBar(
+        title: const Text('コーヒー診断'),
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           // 背景画像
@@ -103,7 +106,7 @@ class SliderScreenState extends State<SliderScreen> {
                         backgroundColor: isIce ? Colors.blue[900] : Colors.blue,
                         foregroundColor: Colors.white,
                         side: isIce
-                            ? const BorderSide(color: Colors.black, width: 3)
+                            ? const BorderSide(color: Colors.white, width: 3)
                             : null,
                       ),
                       onPressed: () {
@@ -121,7 +124,7 @@ class SliderScreenState extends State<SliderScreen> {
                         foregroundColor: Colors.white,
                         side: isIce
                             ? null
-                            : const BorderSide(color: Colors.black, width: 3),
+                            : const BorderSide(color: Colors.white, width: 3),
                       ),
                       onPressed: () {
                         setState(() {
@@ -132,75 +135,132 @@ class SliderScreenState extends State<SliderScreen> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                // テイストバランススライダー
-                const Text('テイストバランス'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('酸味'),
-                    Expanded(
-                      child: Slider(
-                        value: sliderValue1.toDouble(),
-                        min: 0,
-                        max: 100,
-                        divisions: 100,
-                        onChanged: (value) {
-                          setState(() {
-                            sliderValue1 = value.toInt();
-                          });
-                        },
-                      ),
-                    ),
-                    const Text('苦味'),
-                  ],
-                ),
-                const SizedBox(height: 20),
 
-                // ボディスライダー
-                const Text('ボディ'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('ライト'),
-                    Expanded(
-                      child: Slider(
-                        value: sliderValue2.toDouble(),
-                        min: 0,
-                        max: 100,
-                        divisions: 100,
-                        onChanged: (value) {
-                          setState(() {
-                            sliderValue2 = value.toInt();
-                          });
-                        },
+                // スライダーを中央揃えにするコンテナ
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    children: [
+                      // テイストバランススライダー
+                      const Text(
+                        'テイストバランス',
+                        style: TextStyle(color: Colors.white),
                       ),
-                    ),
-                    const Text('フル'),
-                  ],
-                ),
-                const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(
+                            width: 50, // 酸味テキストの幅を固定
+                            child: Text(
+                              '酸味',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          Expanded(
+                            child: Slider(
+                              value: sliderValue1.toDouble(),
+                              min: 0,
+                              max: 100,
+                              divisions: 100,
+                              onChanged: (value) {
+                                setState(() {
+                                  sliderValue1 = value.toInt();
+                                });
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 50, // 苦味テキストの幅を固定
+                            child: Text(
+                              '苦味',
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
 
-                // ローストスライダー
-                const Text('ロースト'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('浅煎り'),
-                    Expanded(
-                      child: Slider(
-                        value: sliderValue3.toDouble(),
-                        min: 0,
-                        max: 100,
-                        divisions: 100,
-                        onChanged: (value) {
-                          setState(() {
-                            sliderValue3 = value.toInt();
-                          });
-                        },
+                      // ボディスライダー
+                      const Text(
+                        'ボディ',
+                        style: TextStyle(color: Colors.white),
                       ),
-                    ),
-                    const Text('深煎り'),
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(
+                            width: 50, // ライトテキストの幅を固定
+                            child: Text(
+                              'ライト',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          Expanded(
+                            child: Slider(
+                              value: sliderValue2.toDouble(),
+                              min: 0,
+                              max: 100,
+                              divisions: 100,
+                              onChanged: (value) {
+                                setState(() {
+                                  sliderValue2 = value.toInt();
+                                });
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 50, // フルテキストの幅を固定
+                            child: Text(
+                              'フル',
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+
+                      // ローストスライダー
+                      const Text(
+                        'ロースト',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(
+                            width: 50, // 淺煎りテキストの幅を固定
+                            child: Text(
+                              '淺煎り',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          Expanded(
+                            child: Slider(
+                              value: sliderValue3.toDouble(),
+                              min: 0,
+                              max: 100,
+                              divisions: 100,
+                              onChanged: (value) {
+                                setState(() {
+                                  sliderValue3 = value.toInt();
+                                });
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 50, // 深煎りテキストの幅を固定
+                            child: Text(
+                              '深煎り',
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.right,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 20),
 
@@ -208,14 +268,22 @@ class SliderScreenState extends State<SliderScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('こだわりますか'),
-                    Checkbox(
-                      value: isPro,
-                      onChanged: (value) {
+                    IconButton(
+                      icon: Icon(
+                        isPro
+                            ? Icons.arrow_drop_down_circle
+                            : Icons.arrow_drop_down_circle, // 条件に応じたアイコン表示
+                        color: isPro ? Colors.green : Colors.grey,
+                      ),
+                      onPressed: () {
                         setState(() {
-                          isPro = value!;
+                          isPro = !isPro; // ボタンが押されたときに状態を反転
                         });
                       },
+                    ),
+                    const Text(
+                      'こだわりますか',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -230,7 +298,8 @@ class SliderScreenState extends State<SliderScreen> {
                     children: category.map((tag) {
                       final isSelected = selectedCategory.contains(tag);
                       return InkWell(
-                        borderRadius: const BorderRadius.all(Radius.circular(32)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(32)),
                         onTap: () {
                           setState(() {
                             if (isSelected) {
