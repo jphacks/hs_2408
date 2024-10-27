@@ -23,7 +23,7 @@ class DiagnosisResult extends StatelessWidget {
                     width: 200,
                     height: 200,
                   ),
-                  const VideoApp(),
+                  VideoApp(videoUrl: coffeeResults[0]["video"]!),
                   const SizedBox(height: 16), // 上下の間隔
                   // 二番目と三番目の画像を横に並べる
                   Row(
@@ -65,9 +65,9 @@ class DiagnosisResult extends StatelessWidget {
   }
 }
 
-/// Stateful widget to fetch and then display video content.
 class VideoApp extends StatefulWidget {
-  const VideoApp({super.key});
+  final String videoUrl;
+  const VideoApp({super.key, required this.videoUrl});
 
   @override
   _VideoAppState createState() => _VideoAppState();
@@ -79,28 +79,26 @@ class _VideoAppState extends State<VideoApp> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
+    // ウィジェットから渡されたURLで初期化
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
       ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
+        setState(() {}); // 初期化後にUIを更新
       });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Video Demo',
-      home: Scaffold(
-        body: Center(
-          child: _controller.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                )
-              : Container(),
-        ),
-        floatingActionButton: FloatingActionButton(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _controller.value.isInitialized
+            ? AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              )
+            : Container(),
+        const SizedBox(height: 10),
+        FloatingActionButton(
           onPressed: () {
             setState(() {
               _controller.value.isPlaying
@@ -112,7 +110,7 @@ class _VideoAppState extends State<VideoApp> {
             _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
           ),
         ),
-      ),
+      ],
     );
   }
 
