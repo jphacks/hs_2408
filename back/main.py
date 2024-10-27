@@ -31,7 +31,7 @@ def calcCoffee(isPro, pro, isIce, slider):
         coffees = coffees[coffees["brend"] == brend]
         coffees = coffees[coffees["darkRoast"] == darkRoast]
 
-    coffees.sort_values("score", ascending=False)
+    coffees = coffees.sort_values("score", ascending=False)
     return {
         "imgs": [
             {
