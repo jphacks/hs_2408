@@ -1,4 +1,4 @@
-# 「Brew Buddy \～あなたの理想のコーヒー～」
+# 「Brew Buddy ～あなたの理想のコーヒー～」
 
 [![IMAGE ALT TEXT HERE](https://jphacks.com/wp-content/uploads/2024/07/JPHACKS2024_ogp.jpg)](https://www.youtube.com/watch?v=DZXUkEj-CSI)
 
