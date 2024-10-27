@@ -28,7 +28,7 @@
 #### 気軽に自分好みのコーヒーを提案してくれるアプリが欲しい。
 
 ### 製品説明（具体的な製品の説明）
-![image](https://github.com/user-attachments/assets/a805ddc6-964c-450a-a039-83ec24b4faf1)
+![image](https://github.com/user-attachments/assets/5f06a2a2-f984-4482-b8ea-e9341a112dd0)
 ### 特長
 #### 1. 特長1　自分好みのコーヒーを推薦
 #### 2. 特長2　コーヒーの雰囲気を醸し出したデザイン
