@@ -7,23 +7,37 @@ Original file is located at
     https://colab.research.google.com/drive/1aDGFTD4VAe-MjLFAadAMZNGvTxibgwgC
 """
 
+###設定
+import os
 import requests
+import cv2
+import numpy as np
+import pathlib
+import math
+import pandas as pd
+from google.colab.patches import cv2_imshow
 from bs4 import BeautifulSoup
+from scraping import scrape_dataches import cv2_imshow
 
-# detail_urlsをresultsから生成
-detail_urls = [item["detail"] for item in results if "detail" in item]
 
+###IDとURLを持ってくる。
+#scraping.pyからresults変数を持ってくる。
+results = scrape_data()
+
+
+
+# detail_urls_with_idをresultsから生成
+#detail_urls_with_idは[id,ページURL、分析用画像PATH、テイストバランス数値、ボディ数値、ロースト数値、コーヒー豆の名前、ブレンド、深煎り]
 detail_urls_with_id = [
-[idx + 1, url, 0, 0, 0, 0]  # IDとURLを設定し、他は0で初期化
-    for idx, url in enumerate(detail_urls)
+    [idx + 1, item["detail"], 0, 0, 0, 0, item["name"],0,0]  # ID, URL, 初期化値、nameを追加
+    for idx, item in enumerate(results) if "detail" in item and "name" in item
 ]
+
+
 
 print(detail_urls_with_id)
 
-import os
-import requests
-from bs4 import BeautifulSoup
-
+###コーヒー豆の特徴画像をダウンロードしてくる。
 
 
 #画像格納
@@ -55,6 +69,9 @@ for i in range(len(detail_urls_with_id)):
     else:
         print("id='image_pager'の<div>が見つかりませんでした。")
 
+###URLから画像をダウンロード
+
+
 # ダウンロード先のフォルダを指定
 download_folder = "./images"
 os.makedirs(download_folder, exist_ok=True)  # フォルダがなければ作成
@@ -75,16 +92,9 @@ for idx, item in enumerate(detail_urls_with_id, start=1):
     else:
         print(f"No URL found at index {idx}, skipping download.")
 
-import cv2
-import numpy as np
-import pathlib
-import os
-import math
-import pandas as pd
-from google.colab.patches import cv2_imshow
+###画像処理します。
 
-
-
+#画像を読み込み
 for j in range(len(detail_urls_with_id)):
   imgCV = cv2.imread(detail_urls_with_id[j][2])
 
@@ -92,50 +102,15 @@ for j in range(len(detail_urls_with_id)):
   # 画像が正しく読み込まれているか確認
   if imgCV is None:
       print("画像の読み込みに失敗しました。パスを確認してください。")
+
+  # 画像を表示(確認用)
   #else:
-      # 画像を表示（Colab環境ではcv2_imshowを使う）
       #cv2_imshow(imgCV)
 
-  '''
-  # RGB値（例：特定の円の色を指定）
-  target_rgb = np.array([200, 80, 110])  # あなたのRGB値に変更
 
-  # RGB値を基に色の範囲を指定（許容範囲を設定）
-  lower_bound = target_rgb - 30  # 許容範囲の下限
-  upper_bound = target_rgb + 30  # 許容範囲の上限
-
-  # マスク処理のためにBGRに変換（OpenCVはBGRフォーマット）
-  lower_bound_bgr = lower_bound[::-1]
-  upper_bound_bgr = upper_bound[::-1]
-
-  # 特定の色に該当する部分だけを抽出するためのマスクを作成
-  mask = cv2.inRange(imgCV, lower_bound_bgr, upper_bound_bgr)
-
-
-  # マスク画像を表示（抽出された部分を確認）
-  cv2_imshow(mask)
-  print()
-  '''
 
   # グレースケールに変換
   gray = cv2.cvtColor(imgCV, cv2.COLOR_BGR2GRAY)
-
-  '''
-
-  # エッジ検出 (Canny)
-  edges = cv2.Canny(gray, 50, 150)
-
-  # エッジを表示して確認
-  cv2_imshow(edges)
-  print()
-
-
-  # ぼかし処理を追加
-  mask_blurred = cv2.GaussianBlur(edges, (5, 5), 2)
-
-  cv2_imshow(mask_blurred)
-  print()
-  '''
 
   #円を検出
   circles = cv2.HoughCircles(gray,
@@ -204,8 +179,13 @@ for j in range(len(detail_urls_with_id)):
   else:
       print("円が検出されませんでした。")
 
+#取得したdataを確認します。（確認用）
 #print(data)
 
+
+
+
+###例外処理
 
 # リストを逆順でループし、条件を満たす要素を削除
 for j in range(len(detail_urls_with_id) - 1, -1, -1):
