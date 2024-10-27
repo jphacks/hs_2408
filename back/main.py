@@ -3,7 +3,11 @@ import pandas as pd
 from enum import Enum
 from flask import Flask, request
 import numpy as np
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+server = os.environ.get("SERVER_URL")
 
 app = Flask(__name__)
 
@@ -19,9 +23,7 @@ def calcDist(coffee, slider):
 
 def calcCoffee(isPro, pro, isIce, slider):
     coffees = pd.read_csv("truedata.csv")
-    coffees.columns = ["id", "title", "taste", "body", "roast"]
-    coffees["brend"] = pd.Series([np.random.random() < 0.5] * (len(coffees["id"])))
-    coffees["darkRoast"] = pd.Series([np.random.random() < 0.5] * (len(coffees["id"])))
+    coffees.columns = ["id","detail_url","img_path",  "taste", "body", "roast","title"]
     coffees.astype({"taste": int, "body": int, "roast": int})
     coffees["score"] = coffees.apply(calcDist, slider=slider, axis=1)
     if isPro:
@@ -36,6 +38,7 @@ def calcCoffee(isPro, pro, isIce, slider):
             {
                 "title": coffees.iloc[0, 1],
                 "url": "https://www.kaldi.co.jp/news/images/bnr_halloween2024_SP.jpg",
+                "video": f"{server}/static/tmp.mp4",
             },
             {
                 "title": coffees.iloc[1, 1],
