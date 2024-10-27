@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 def calcDist(coffee, slider):
     slider = list(map(int, slider))
-    return (
+    return int(
         (slider[0] - coffee.loc["taste"]) ** 2
         + (slider[1] - coffee.loc["body"]) ** 2
         + (slider[2] - coffee.loc["roast"]) ** 2
@@ -35,16 +35,16 @@ def calcCoffee(isPro, pro, isIce, slider):
     return {
         "imgs": [
             {
-                "title": coffees.iloc[0, -1],
+                "title": coffees.iloc[0, 6],
                 "url": f'{server}/static/{os.path.basename(coffees.iloc[0,2])}',
                 #"video": f"{server}/static/tmp.mp4",
             },
             {
-                "title": coffees.iloc[1, -1],
+                "title": coffees.iloc[1, 6],
                 "url": f'{server}/static/{os.path.basename(coffees.iloc[1,2])}',
             },
             {
-                "title": coffees.iloc[2, -1],
+                "title": coffees.iloc[2, 6],
                 "url": f'{server}/static/{os.path.basename(coffees.iloc[2,2])}',
             },
         ]
@@ -58,8 +58,8 @@ def index():
     pro = req["pro"]
     isIce = req["isIce"]
     slider = [req["taste"], req["body"], req["roast"]]
-    with open("tmp.txt", "W") as f:
-        f.write(calcCoffee(isPro, pro, isIce, slider))
+    with open("tmp.txt", "w") as f:
+        f.write(json.dumps(calcCoffee(isPro, pro, isIce, slider)))
     return json.dumps(calcCoffee(isPro, pro, isIce, slider))
 
 
