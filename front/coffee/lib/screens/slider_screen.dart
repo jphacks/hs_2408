@@ -28,7 +28,7 @@ class SliderScreenState extends State<SliderScreen> {
     'ダークロースト',
   ];
 
-  Future<void> sendValues(BuildContext context) async {
+  Future<void> sendValues() async {
     final url = dotenv.env['API_URL'];
     if (url == null) {
       print('API_URL is not set in the environment variables');
@@ -61,6 +61,7 @@ class SliderScreenState extends State<SliderScreen> {
       List<Map<String, String>> coffeeResults =
           x.map((item) => Map<String, String>.from(item)).toList();
 
+      if (!mounted) return; // ウィジェットがまだマウントされているか確認
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -187,16 +188,24 @@ class SliderScreenState extends State<SliderScreen> {
                             ),
                           ),
                           Expanded(
-                            child: Slider(
-                              value: sliderValue1.toDouble(),
-                              min: 0,
-                              max: 100,
-                              divisions: 100,
-                              onChanged: (value) {
-                                setState(() {
-                                  sliderValue1 = value.toInt();
-                                });
-                              },
+                            child: SliderTheme(
+                              data: SliderTheme.of(context).copyWith(
+                                trackHeight: 0, // バーを消す
+                                thumbShape: const RoundSliderThumbShape(
+                                  enabledThumbRadius: 12.0, // 丸の大きさを指定
+                                ),
+                              ),
+                              child: Slider(
+                                value: sliderValue1.toDouble(),
+                                min: 0,
+                                max: 100,
+                                divisions: 100,
+                                onChanged: (value) {
+                                  setState(() {
+                                    sliderValue1 = value.toInt();
+                                  });
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -256,16 +265,24 @@ class SliderScreenState extends State<SliderScreen> {
                             ),
                           ),
                           Expanded(
-                            child: Slider(
-                              value: sliderValue2.toDouble(),
-                              min: 0,
-                              max: 100,
-                              divisions: 100,
-                              onChanged: (value) {
-                                setState(() {
-                                  sliderValue2 = value.toInt();
-                                });
-                              },
+                            child: SliderTheme(
+                              data: SliderTheme.of(context).copyWith(
+                                trackHeight: 0, // バーを消す
+                                thumbShape: const RoundSliderThumbShape(
+                                  enabledThumbRadius: 12.0, // 丸の大きさを指定
+                                ),
+                              ),
+                              child: Slider(
+                                value: sliderValue2.toDouble(),
+                                min: 0,
+                                max: 100,
+                                divisions: 100,
+                                onChanged: (value) {
+                                  setState(() {
+                                    sliderValue2 = value.toInt();
+                                  });
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -326,16 +343,24 @@ class SliderScreenState extends State<SliderScreen> {
                             ),
                           ),
                           Expanded(
-                            child: Slider(
-                              value: sliderValue3.toDouble(),
-                              min: 0,
-                              max: 100,
-                              divisions: 100,
-                              onChanged: (value) {
-                                setState(() {
-                                  sliderValue3 = value.toInt();
-                                });
-                              },
+                            child: SliderTheme(
+                              data: SliderTheme.of(context).copyWith(
+                                trackHeight: 0, // バーを消す
+                                thumbShape: const RoundSliderThumbShape(
+                                  enabledThumbRadius: 12.0, // 丸の大きさを指定
+                                ),
+                              ),
+                              child: Slider(
+                                value: sliderValue3.toDouble(),
+                                min: 0,
+                                max: 100,
+                                divisions: 100,
+                                onChanged: (value) {
+                                  setState(() {
+                                    sliderValue3 = value.toInt();
+                                  });
+                                },
+                              ),
                             ),
                           ),
                           const SizedBox(
@@ -437,10 +462,11 @@ class SliderScreenState extends State<SliderScreen> {
                 // 診断開始ボタン
                 ElevatedButton(
                   onPressed: () async {
-                    await sendValues(context);
+                    await sendValues();
                   },
                   child: const Text('診断開始'),
                 ),
+
                 const SizedBox(height: 20),
               ],
             ),
