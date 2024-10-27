@@ -8,7 +8,6 @@ import os
 
 load_dotenv()
 server = os.environ.get("SERVER_URL")
-
 app = Flask(__name__)
 
 
@@ -36,17 +35,17 @@ def calcCoffee(isPro, pro, isIce, slider):
     return {
         "imgs": [
             {
-                "title": coffees.iloc[0, 1],
-                "url": "https://www.kaldi.co.jp/news/images/bnr_halloween2024_SP.jpg",
-                "video": f"{server}/static/tmp.mp4",
+                "title": coffees.iloc[0, -1],
+                "url": f"{server}/static/{os.path.basename()}",
+                #"video": f"{server}/static/tmp.mp4",
             },
             {
-                "title": coffees.iloc[1, 1],
-                "url": "https://www.kaldi.co.jp/news/images/bnr_imokurikabocya%202024A.jpg",
+                "title": coffees.iloc[1, -1],
+                "url": f"{server}/static/{os.path.basename()}",
             },
             {
-                "title": coffees.iloc[2, 1],
-                "url": "https://www.kaldi.co.jp/news/images/bur_yoichi_nouveau_2024.jpg",
+                "title": coffees.iloc[2, -1],
+                "url": f"{server}/static/{os.path.basename()}",
             },
         ]
     }
