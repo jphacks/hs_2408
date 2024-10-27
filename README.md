@@ -66,4 +66,8 @@
 #### ハッカソンで開発した独自機能・技術
 画像解析 カルディのホームページにある画像を参考に3つの要素からおすすめ度を表示した。
 * 独自で開発したものの内容をこちらに記載してください
-* 特に力を入れた部分をファイルリンク、またはcommit_idを記載してください。
+  スクレイピング、画像取得、画像解析、類似度計算を自動化することで手作業の工程を極力少なくしました。
+* 特に力を入れた部分をファイルリンク、またはcommit_idを記載してください。  
+  - https://github.com/jphacks/hs_2408/blob/main/back/kind_coffee_final.py
+  - https://github.com/jphacks/hs_2408/tree/main/back#:~:text=2%20hours%20ago-,scraping.py,-Add%20files%20via
+  
