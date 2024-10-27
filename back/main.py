@@ -8,13 +8,12 @@ import os
 
 load_dotenv()
 server = os.environ.get("SERVER_URL")
-
 app = Flask(__name__)
 
 
 def calcDist(coffee, slider):
     slider = list(map(int, slider))
-    return (
+    return int(
         (slider[0] - coffee.loc["taste"]) ** 2
         + (slider[1] - coffee.loc["body"]) ** 2
         + (slider[2] - coffee.loc["roast"]) ** 2
@@ -22,8 +21,8 @@ def calcDist(coffee, slider):
 
 
 def calcCoffee(isPro, pro, isIce, slider):
-    coffees = pd.read_csv("truedata.csv")
-    coffees.columns = ["id","detail_url","img_path",  "taste", "body", "roast","title"]
+    coffees = pd.read_csv("score.csv")
+    coffees.columns = ["id","detail_url","img_path",  "taste", "body", "roast","title","brend","darkRoast"]
     coffees.astype({"taste": int, "body": int, "roast": int})
     coffees["score"] = coffees.apply(calcDist, slider=slider, axis=1)
     if isPro:
@@ -36,17 +35,17 @@ def calcCoffee(isPro, pro, isIce, slider):
     return {
         "imgs": [
             {
-                "title": coffees.iloc[0, 1],
-                "url": "https://www.kaldi.co.jp/news/images/bnr_halloween2024_SP.jpg",
-                "video": f"{server}/static/tmp.mp4",
+                "title": coffees.iloc[0, 6],
+                "url": f'http://{server}:5000/static/{os.path.basename(coffees.iloc[0,2])}',
+                #"video": f"{server}/static/tmp.mp4",
             },
             {
-                "title": coffees.iloc[1, 1],
-                "url": "https://www.kaldi.co.jp/news/images/bnr_imokurikabocya%202024A.jpg",
+                "title": coffees.iloc[1, 6],
+                "url": f'http://{server}:5000/static/{os.path.basename(coffees.iloc[1,2])}',
             },
             {
-                "title": coffees.iloc[2, 1],
-                "url": "https://www.kaldi.co.jp/news/images/bur_yoichi_nouveau_2024.jpg",
+                "title": coffees.iloc[2, 6],
+                "url": f'http://{server}:5000/static/{os.path.basename(coffees.iloc[2,2])}',
             },
         ]
     }
