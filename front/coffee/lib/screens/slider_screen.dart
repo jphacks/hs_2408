@@ -160,9 +160,18 @@ class SliderScreenState extends State<SliderScreen> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: const Text('テイストバランスについて'),
+                                      title:
+                                          const Text('テイストバランス（Taste Balance）'),
                                       content: const Text(
-                                          '酸味、苦味、甘さがどれか一つ強すぎたりせず、全部がうまく混ざっているかどうかを見ます。\n\n"「弱い」：とがった味。マニア向け。\n\n"「強い」：まろやかな味。親しみやすい。'),
+                                        '  • 酸味 ⇔ 苦味\n'
+                                        'コーヒーの味わいのバランスを、酸味と苦味の度合いで表します。\n\n'
+                                        '酸味\n'
+                                        '  • フルーティーな香りや、柑橘類のような爽やかな味わいが特徴。\n'
+                                        '  • エチオピア産などの浅煎り豆でよく感じられます。\n\n'
+                                        '苦味\n'
+                                        '  • ダークチョコレートのような深い苦味を感じる味わい。\n'
+                                        '  • 深煎りコーヒーやエスプレッソでよく味わえます。',
+                                      ),
                                       actions: <Widget>[
                                         TextButton(
                                           child: const Text('閉じる'),
@@ -239,7 +248,15 @@ class SliderScreenState extends State<SliderScreen> {
                                     return AlertDialog(
                                       title: const Text('ボディについて'),
                                       content: const Text(
-                                          'コーヒーの濃さを表しています。\n\n"「薄い」：水のように飲みやすい。\n\n"「濃い」：コーヒーの強い香りが楽しめます。'),
+                                        '  • ライト ⇔ フル\n'
+                                        'コーヒーを口に含んだときの「重さ」や「濃厚さ」を表します。\n\n'
+                                        'ライト（Light Body）\n'
+                                        '  • さっぱりとして軽い口当たり。\n'
+                                        '  • 紅茶のような薄い質感で、飲みやすいタイプ。\n\n'
+                                        'フル（Full Body）\n'
+                                        '  • 口の中で感じるコクが強く、しっかりとした重厚感がある。\n'
+                                        '  • クリーミーで、後味が長く残ることもあります。',
+                                      ),
                                       actions: <Widget>[
                                         TextButton(
                                           child: const Text('閉じる'),
@@ -317,7 +334,15 @@ class SliderScreenState extends State<SliderScreen> {
                                     return AlertDialog(
                                       title: const Text('ローストについて'),
                                       content: const Text(
-                                          'コーヒーの味を表しています。\n\n"「フルーティ」：フルーティで爽やか。\n\n"「苦味」：苦味が強く、コーヒー独特の味わい。'),
+                                        '  • 朝煎り ⇔ 深煎り\n'
+                                        'コーヒー豆の焙煎度を表します。ローストの度合いは、味や香り、酸味・苦味に影響を与えます。\n\n'
+                                        '浅煎り（Light Roast）\n'
+                                        '  • 明るい酸味とフルーティーな香りが特徴。\n'
+                                        '  • ローラルやシトラス系の風味が感じられることが多い。\n\n'
+                                        '深煎り（Dark Roast）\n'
+                                        '  • 苦味が強く、重厚な風味が特徴。\n'
+                                        '  • チョコレートやナッツのような香りが感じられることが多く、ミルクとの相性も良い。',
+                                      ),
                                       actions: <Widget>[
                                         TextButton(
                                           child: const Text('閉じる'),
