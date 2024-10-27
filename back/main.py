@@ -22,7 +22,7 @@ def calcDist(coffee, slider):
 
 def calcCoffee(isPro, pro, isIce, slider):
     coffees = pd.read_csv("score.csv")
-    coffees.columns = ["id","detail_url","img_path",  "taste", "body", "roast","title"]
+    coffees.columns = ["id","detail_url","img_path",  "taste", "body", "roast","title","brend","darkRoast"]
     coffees.astype({"taste": int, "body": int, "roast": int})
     coffees["score"] = coffees.apply(calcDist, slider=slider, axis=1)
     if isPro:
