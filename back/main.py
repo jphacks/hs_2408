@@ -58,6 +58,8 @@ def index():
     pro = req["pro"]
     isIce = req["isIce"]
     slider = [req["taste"], req["body"], req["roast"]]
+    with open("tmp.txt", "W") as f:
+        f.write(calcCoffee(isPro, pro, isIce, slider))
     return json.dumps(calcCoffee(isPro, pro, isIce, slider))
 
 
