@@ -36,16 +36,16 @@ def calcCoffee(isPro, pro, isIce, slider):
         "imgs": [
             {
                 "title": coffees.iloc[0, -1],
-                "url": f"{server}/static/{os.path.basename(coffees.iloc[0].loc[:,"img_path"])}",
+                "url": f'{server}/static/{os.path.basename(coffees.iloc[0].loc[:,"img_path"])}',
                 #"video": f"{server}/static/tmp.mp4",
             },
             {
                 "title": coffees.iloc[1, -1],
-                "url": f"{server}/static/{os.path.basename(coffees.iloc[1].loc[:,"img_path"])}",
+                "url": f'{server}/static/{os.path.basename(coffees.iloc[1].loc[:,"img_path"])}',
             },
             {
                 "title": coffees.iloc[2, -1],
-                "url": f"{server}/static/{os.path.basename(coffees.iloc[2].loc[:,"img_path"])}",
+                "url": f'{server}/static/{os.path.basename(coffees.iloc[2].loc[:,"img_path"])}',
             },
         ]
     }
