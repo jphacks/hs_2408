@@ -45,3 +45,4 @@ def scrape_data():
             )
     
     print(results)
+    return results
