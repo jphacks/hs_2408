@@ -37,7 +37,7 @@ def calcCoffee(isPro, pro, isIce, slider):
             {
                 "title": coffees.iloc[0, 6],
                 "url": f'http://{server}:5000/static/{os.path.basename(coffees.iloc[0,2])}',
-                #"video": f"{server}/static/tmp.mp4",
+                "video": f"http://{server}:5000/static/bee.mp4",
             },
             {
                 "title": coffees.iloc[1, 6],
@@ -60,6 +60,9 @@ def index():
     slider = [req["taste"], req["body"], req["roast"]]
     return json.dumps(calcCoffee(isPro, pro, isIce, slider))
 
+@app.route("/", methods=['GET'])
+def index2():
+    return 'hello'
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
