@@ -24,8 +24,8 @@ class SliderScreenState extends State<SliderScreen> {
 
   // カテゴリーのリスト
   final category = [
-    'brend',
-    'darkRoast',
+    'ブレンド',
+    'ダークロースト',
   ];
 
   Future<void> sendValues(BuildContext context) async {
@@ -36,8 +36,8 @@ class SliderScreenState extends State<SliderScreen> {
     }
 
     // selectedCategoryにタグがあるかでフラグを設定
-    bool selectedBrend = selectedCategory.contains('brend');
-    bool selectedDarkRoast = selectedCategory.contains('darkRoast');
+    bool selectedBrend = selectedCategory.contains('ブレンド');
+    bool selectedDarkRoast = selectedCategory.contains('ダークロースト');
 
     final response = await http.post(
       Uri.parse(url),
@@ -84,7 +84,7 @@ class SliderScreenState extends State<SliderScreen> {
           // 背景画像
           SizedBox.expand(
             child: Image.asset(
-              'images/background.jpg',
+              isIce ? 'images/background_ice.png' : 'images/background_hot.png',
               fit: BoxFit.cover,
             ),
           ),
@@ -142,10 +142,40 @@ class SliderScreenState extends State<SliderScreen> {
                   child: Column(
                     children: [
                       // テイストバランススライダー
-                      const Text(
-                        'テイストバランス',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'テイストバランス',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.help_outline,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('テイストバランスについて'),
+                                      content: const Text(
+                                          '酸味、苦味、甘さがどれか一つ強すぎたりせず、全部がうまく混ざっているかどうかを見ます。\n\n"「弱い」：とがった味。マニア向け。\n\n"「強い」：まろやかな味。親しみやすい。'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('閉じる'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ]),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -180,12 +210,41 @@ class SliderScreenState extends State<SliderScreen> {
                         ],
                       ),
                       const SizedBox(height: 20),
-
                       // ボディスライダー
-                      const Text(
-                        'ボディ',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'ボディ（重厚感・質感）',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.help_outline,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('ボディについて'),
+                                      content: const Text(
+                                          'コーヒーの濃さを表しています。\n\n"「薄い」：水のように飲みやすい。\n\n"「濃い」：コーヒーの強い香りが楽しめます。'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('閉じる'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ]),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -222,17 +281,47 @@ class SliderScreenState extends State<SliderScreen> {
                       const SizedBox(height: 20),
 
                       // ローストスライダー
-                      const Text(
-                        'ロースト',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'ロースト',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            IconButton(
+                              icon: const Icon(
+                                Icons.help_outline,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('ローストについて'),
+                                      content: const Text(
+                                          'コーヒーの味を表しています。\n\n"「フルーティ」：フルーティで爽やか。\n\n"「苦味」：苦味が強く、コーヒー独特の味わい。'),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: const Text('閉じる'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ]),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const SizedBox(
                             width: 50, // 淺煎りテキストの幅を固定
                             child: Text(
-                              '淺煎り',
+                              '浅煎り',
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -265,28 +354,35 @@ class SliderScreenState extends State<SliderScreen> {
                 const SizedBox(height: 20),
 
                 // こだわりチェックボックス
+                // アイコンボタンの部分を修正
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    IconButton(
-                      icon: Icon(
-                        isPro
-                            ? Icons.arrow_drop_down_circle
-                            : Icons.arrow_drop_down_circle, // 条件に応じたアイコン表示
-                        color: isPro ? Colors.green : Colors.grey,
+                    AnimatedRotation(
+                      turns: isPro ? 0.5 : 0.0, // 180度回転するためには0.5を指定します
+                      duration:
+                          const Duration(milliseconds: 300), // 回転のアニメーションの時間を設定
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_drop_down_circle, // 常に同じアイコンを使います
+                          color: isPro
+                              ? const Color.fromARGB(255, 201, 140, 61)
+                              : Color.fromARGB(255, 201, 140, 61),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isPro = !isPro; // ボタンが押されたときに状態を反転
+                          });
+                        },
                       ),
-                      onPressed: () {
-                        setState(() {
-                          isPro = !isPro; // ボタンが押されたときに状態を反転
-                        });
-                      },
                     ),
                     const Text(
-                      'こだわりますか',
+                      '詳細',
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
+
                 const SizedBox(height: 20),
 
                 // カテゴリー選択（こだわる場合のみ表示）
@@ -316,16 +412,17 @@ class SliderScreenState extends State<SliderScreen> {
                           decoration: BoxDecoration(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(32)),
-                            border: Border.all(
-                              width: 2,
-                              color: Colors.pink,
-                            ),
-                            color: isSelected ? Colors.pink : null,
+                            color: isSelected
+                                ? Color.fromARGB(255, 201, 140, 61)
+                                : Colors.white, // 選択されている場合は茶色背景白文字に変更
                           ),
                           child: Text(
                             tag,
                             style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.pink,
+                              color: isSelected
+                                  ? Colors.white
+                                  : Colors
+                                      .black, // 選択されている場合は白文字、選択されていない場合は黒文字
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -334,6 +431,7 @@ class SliderScreenState extends State<SliderScreen> {
                     }).toList(),
                   ),
                 ),
+
                 const SizedBox(height: 20),
 
                 // 診断開始ボタン
