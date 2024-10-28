@@ -10,6 +10,7 @@ class DiagnosisResult extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('診断結果'),
+        centerTitle: true,
       ),
       body: Center(
         child: coffeeResults.length >= 3
